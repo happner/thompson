@@ -36,13 +36,13 @@ var thompson = new Thompson(options);
 thompson.addRepo({repo:'happner/thompson',
                   events: ["push"],
                   handler:function(message, callback){
-
+                    console.log('push event happened on the happner/thompson repo...');
                   }});
 
-thompson.addRepo({repo:'/thompson',
+thompson.addRepo({repo:'tintin/thompson',
                   events: ["push"],
                   handler:function(message, callback){
-
+                    console.log(message.event + ' event happened on the happner/thompson repo...');
                   }});
 
 thompson.listen();
