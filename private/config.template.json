@@ -1,0 +1,5 @@
+{
+  "token": "[github api token]",
+  "secret": "[webhook secret]",
+  "url": "https://thompson"
+}
