@@ -9,7 +9,7 @@ function Thompson(options){
   });
 
   var __util = new Util();
-  var __webhook = new Webhook();
+  var __webhook = new Webhook(options.webhooks);
 
   Object.defineProperty(this, '__util', {
     value:__util
