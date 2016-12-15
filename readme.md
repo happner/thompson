@@ -22,10 +22,30 @@ $ npm install thompson --save
 
 ```javascript
 
-var thompson = require('thompson');
+var Thompson = require('thompson');
 
+var options = {
+  "url": "http://www.thompson.com:55555",
+  "token": "08254aa9a4a60bbb497164c42a7542efbcad805a",
+  "secret": "YYTAAG4562fDSsa",
+  "host": "0.0.0.0"
+}
 
+var thompson = new Thompson(options);
 
+thompson.addRepo({repo:'happner/thompson',
+                  events: ["push"],
+                  handler:function(message, callback){
+
+                  }});
+
+thompson.addRepo({repo:'/thompson',
+                  events: ["push"],
+                  handler:function(message, callback){
+
+                  }});
+
+thompson.listen();
 
 ```
 
