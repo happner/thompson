@@ -33,19 +33,38 @@ var options = {
 
 var thompson = new Thompson(options);
 
-thompson.addRepo({repo:'happner/thompson',
-                  events: ["push"],
-                  handler:function(message, callback){
-                    console.log('push event happened on the happner/thompson repo...');
-                  }});
+thompson.on('webhook-event', function(message){
+  expect(message.repo.name).to.be('happner/thompson');
+  expect(message.event).to.be('push');
+  //do something custom
+});
 
-thompson.addRepo({repo:'tintin/thompson',
-                  events: ["push"],
-                  handler:function(message, callback){
-                    console.log(message.event + ' event happened on the happner/thompson repo...');
-                  }});
+thompson
+  //add a single repo to watch
+  .addRepo({
+    name:'happner/thompson',
+    url:'www.blah.com'
+  })
 
-thompson.listen();
+  .then(function(){
+    //add a multiple repos to watch
+    return thompson.addRepo([{
+      name:'herge/haddock',
+      url:'www.blah.com'
+    },{
+      name:'herge/tintin',
+      url:'www.blah.com'
+    }])
+  })
+
+  //then listen for webhook callbacks
+  .then(thompson.listen())
+  .then(function(){
+    console.log('thompson is listening...');
+  })
+  .catch(function(e){
+    console.log('oops...');
+  });
 
 ```
 

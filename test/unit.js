@@ -1,6 +1,9 @@
 describe('unit tests', function () {
 
-  var expect = require('expect.js');
+  var expect = require('expect.js')
+    , Promise = require('bluebird')
+    , url = require('url')
+    ;
 
   var config;
 
@@ -33,14 +36,13 @@ describe('unit tests', function () {
       secret:config.webhooks.SECRET
     });
 
-    expect(webhook.__url).to.be(config.webhooks.URL);
+    expect(webhook.options.url).to.be(config.webhooks.URL);
 
-    var parsedURL = url.parse(webhook.__url);
+    var parsedURL = url.parse(webhook.options.url);
 
-    expect(webhook.__port).to.be(parsedURL.port);
-    expect(webhook.__token).to.be(config.webhooks.TOKEN);
-    expect(webhook.__secret).to.be(config.webhooks.SECRET);
-    expect(webhook.__url).to.be(config.webhooks.URL);
+    expect(webhook.options.port).to.be(parsedURL.port);
+    expect(webhook.options.token).to.be(config.webhooks.TOKEN);
+    expect(webhook.options.secret).to.be(config.webhooks.SECRET);
 
     done();
 
@@ -54,6 +56,33 @@ describe('unit tests', function () {
     //   done();
     // });
   });
+
+  it('webhook instantiate port 80', function (done) {
+
+    var Webhook = require('../lib/webhook');
+
+    var webhook = new Webhook({
+      url:'www.blah.com',
+      token:config.webhooks.TOKEN,
+      secret:config.webhooks.SECRET
+    });
+
+    expect(webhook.options.url).to.be('www.blah.com');
+    expect(webhook.options.port).to.be(80);
+
+    done();
+
+    // webhook.listen(function(e){
+    //
+    //   if (e) return done(e);
+    //
+    //   expect(webhook.host).to.be('0.0.0.0');
+    //   expect(webhook.port).to.be('55555');
+    //
+    //   done();
+    // });
+  });
+
 
   it('webhook add', function (done) {
 
@@ -68,7 +97,7 @@ describe('unit tests', function () {
     });
 
     webhook.addRepo({
-      repo:'happner/thompson',
+      name:'happner/thompson',
       events: ["push"],
       handler:function(message, callback){
 
@@ -76,12 +105,12 @@ describe('unit tests', function () {
     });
 
     webhook.addRepo([{
-      repo:'happner/test1',
+      name:'happner/test1',
       handler:function(message, callback){
 
       }
     },{
-      repo:'happner/test2',
+      name:'happner/test2',
       handler:function(message, callback){
 
       }
@@ -91,21 +120,21 @@ describe('unit tests', function () {
 
     expect(webhook.repos['happner/thompson']).to.eql({
       owner:'happner',
-      repo:'thompson',
+      name:'thompson',
       events: ["push"],
       active:true
     });
 
     expect(webhook.repos['happner/test1']).to.eql({
       owner:'happner',
-      repo:'test1',
+      name:'test1',
       events: ["push", "pull_request"],
       active:true
     });
 
     expect(webhook.repos['happner/test2']).to.eql({
       owner:'happner',
-      repo:'test2',
+      name:'test2',
       events: ["push", "pull_request"],
       active:true
     });
@@ -124,17 +153,104 @@ describe('unit tests', function () {
   });
 
 
+  it('listener initialize', function (done) {
+
+    var Webhook = require('../lib/webhook');
+
+    var webhook = new Webhook({
+      url:config.webhooks.URL,
+      token:config.webhooks.TOKEN,
+      secret:config.webhooks.SECRET
+    });
+
+    webhook.addRepo({
+      name:'thompson/test',
+      events: ["push", "test"],
+      handler:function(message, callback){
+
+      }
+    });
+
+    var Listener = require('../lib/listener');
+
+    var listener = new Listener(webhook, {
+      url:config.webhooks.URL,
+      token:config.webhooks.TOKEN,
+      secret:config.webhooks.SECRET
+    });
+
+    var parsedURL = url.parse(config.webhooks.URL);
+
+    expect(listener.__url).to.be(config.webhooks.URL);
+    expect(listener.__token).to.be(config.webhooks.TOKEN);
+    expect(listener.__secret).to.be(config.webhooks.SECRET);
+
+    expect(listener.__webhooks).to.eql(webhook);
+
+    done();
+  });
+
+  it('promise structure works nicely', function (done) {
+
+    var Thompson = require('../index.js');
+
+    var thompson = new Thompson({
+      test:'options',
+      url:config.webhooks.URL,
+      token:config.webhooks.TOKEN,
+      secret:config.webhooks.SECRET
+    });
+
+    thompson.addRepo = Promise.promisify(function(repo, callback){
+      callback();
+    });
+
+    thompson.listen = Promise.promisify(function(callback){
+      callback();
+    });
+
+    thompson.on('webhook-event', function(message){
+      expect(message.repo.name).to.be('happner/thompson');
+      expect(message.event).to.be('push');
+      done();
+    });
+
+    thompson
+      //add a single repo to watch
+      .addRepo({
+        name:'happner/thompson',
+        url:'www.blah.com'
+      })
+
+      .then(function(){
+        //add a multiple repos to watch
+        return thompson.addRepo([{
+          name:'herge/haddock',
+          url:'www.blah.com'
+        },{
+          name:'herge/tintin',
+          url:'www.blah.com'
+        }])
+      })
+
+      //then listen for webhook callbacks
+      .then(thompson.listen())
+      .then(function(){
+        thompson.__onWebHookEvent({repo:{name:'happner/thompson'}, event:'push'});
+      })
+      .catch(done);
+
+  });
+
   it('is able to initialize', function (done) {
 
     var Thompson = require('../index.js');
 
     var thompson = new Thompson({
       test:'options',
-      webhooks:{
-        url:config.webhooks.URL,
-        token:config.webhooks.TOKEN,
-        secret:config.webhooks.SECRET
-      }
+      url:config.webhooks.URL,
+      token:config.webhooks.TOKEN,
+      secret:config.webhooks.SECRET
     });
 
     expect(thompson.__util).to.not.be(null);
