@@ -25,9 +25,9 @@ $ npm install thompson --save
 var Thompson = require('thompson');
 
 var options = {
-  "url": "http://www.thompson.com:55555",
-  "token": "08254aa9a4a60bbb497164c42a7542efbcad805a",
-  "secret": "YYTAAG4562fDSsa",
+  "url": "[external url you want webhooks to attach to]",
+  "token": "[token]",
+  "secret": "[secret to ensure you dont get anyone else pushing spurious events]",
   "host": "0.0.0.0"
 }
 
@@ -42,18 +42,15 @@ thompson.on('webhook-event', function(message){
 thompson
   //add a single repo to watch
   .addRepo({
-    name:'happner/thompson',
-    url:'www.blah.com'
+    name:'happner/thompson'
   })
 
   .then(function(){
     //add a multiple repos to watch
     return thompson.addRepo([{
-      name:'herge/haddock',
-      url:'www.blah.com'
+      name:'herge/haddock'
     },{
-      name:'herge/tintin',
-      url:'www.blah.com'
+      name:'herge/tintin'
     }])
   })
 

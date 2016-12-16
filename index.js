@@ -54,8 +54,6 @@ Thompson.prototype.addRepo = function(repo){
   });
 };
 
-
-
 Thompson.prototype.on = function(event, handler){
   var _this = this;
 
@@ -77,7 +75,7 @@ Thompson.prototype.listen = function(){
     var doListen = function(){
 
       if (!_this.__webhook.repos || _this.__webhook.repos.length == 0) return reject(new Error('no repos configured'));
-      _this.listener.listen(_this.__onWebHookEvent);
+      _this.listener.listen(_this.__onWebHookEvent.bind(_this));
       resolve();
     };
 

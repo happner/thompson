@@ -218,18 +218,15 @@ describe('unit tests', function () {
     thompson
       //add a single repo to watch
       .addRepo({
-        name:'happner/thompson',
-        url:'www.blah.com'
+        name:'happner/thompson'
       })
 
       .then(function(){
         //add a multiple repos to watch
         return thompson.addRepo([{
-          name:'herge/haddock',
-          url:'www.blah.com'
+          name:'herge/haddock'
         },{
-          name:'herge/tintin',
-          url:'www.blah.com'
+          name:'herge/tintin'
         }])
       })
 
