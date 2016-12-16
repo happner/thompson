@@ -33,38 +33,28 @@ var options = {
 
 var thompson = new Thompson(options);
 
-thompson.on('webhook-event', function(message){
-  expect(message.repo.name).to.be('happner/thompson');
-  expect(message.event).to.be('push');
-  //do something custom
-});
+    thompson.on('webhook-event', function(message){
+      console.log('have event back:::', message);
+      done();
+    });
 
-thompson
-  //add a single repo to watch
-  .addRepo({
-    name:'happner/thompson'
-  })
-
-  .then(function(){
-    //add a multiple repos to watch
-    return thompson.addRepo([{
-      name:'herge/haddock'
-    },{
-      name:'herge/tintin'
-    }])
-  })
-
-  //then listen for webhook callbacks
-  .then(thompson.listen())
-  .then(function(){
-    console.log('thompson is listening...');
-  })
-  .catch(function(e){
-    console.log('oops...');
-  });
-
+    thompson
+      //add one
+      .addRepo({
+        name:'happner/thompson'
+      })
+      //add many
+      .then(thompson.addRepo([{
+          name:'herge/haddock'
+        },{
+          name:'herge/tintin'
+        }])
+      )
+      //then listen for webhook callbacks
+      .then(thompson.listen())
+      .then(thompson.test())
+      .catch(done);
 ```
-
 
 ## License
 

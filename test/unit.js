@@ -165,7 +165,7 @@ describe('unit tests', function () {
 
     webhook.addRepo({
       name:'thompson/test',
-      events: ["push", "test"],
+      events: ["push"],
       handler:function(message, callback){
 
       }
