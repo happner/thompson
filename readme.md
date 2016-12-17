@@ -52,7 +52,6 @@ var thompson = new Thompson(options);
       )
       //then listen for webhook callbacks
       .then(thompson.listen())
-      .then(thompson.test())
       .catch(done);
 ```
 
