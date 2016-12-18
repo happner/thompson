@@ -10,7 +10,11 @@
 
 ## Purpose
 
-Thompson sets up github webhooks and listens for events on the webhooks, all he needs is a github token, an external address which he listens on, and a list of repos to attach his cane to.
+Thompson sets up [github webhooks](https://developer.github.com/webhooks/) and listens for events on the webhooks, all he needs is a [github token](https://github.com/settings/tokens/new), an external address which he listens on, and a list of repos to attach his cane to.
+
+Special thanks to:
+[pksunkara](https://github.com/pksunkara/octonode)
+[nlf](https://github.com/nlf/node-github-hook)
 
 ## Installation
 
@@ -28,10 +32,10 @@ var Thompson = require('thompson');
 
 var options = {
   "url": "[external url you want webhooks to attach to]",
-  "token": "[token]",
+  "token": "[github api token]",
   "secret": "[secret to ensure you dont get anyone else pushing spurious events]",
   "host": "0.0.0.0",
-  "events": ["push","pull"]
+  "events": ["push"]
 }
 
 var thompson = new Thompson(options);
