@@ -42,7 +42,8 @@ var thompson = new Thompson(options);
   thompson
   //add one
   .addRepo({
-    name: repo
+    name: repo,
+    events:['push']
   })
   //then listen for webhook callbacks
   .then(
