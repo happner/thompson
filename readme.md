@@ -34,38 +34,30 @@ var options = {
 
 var thompson = new Thompson(options);
 
-    thompson.on('webhook-event', function(message){
+  thompson.on('webhook-event', function (message) {
 
-      //event message is in the following format:
-      // {}
+    console.log('have message yay!');
+  });
 
-      console.log('have event back:::', message);
-    });
+  thompson
+  //add one
+  .addRepo({
+    name: repo
+  })
+  //then listen for webhook callbacks
+  .then(
 
-     thompson
-      //add one
-      .addRepo({
-        name: 'thompson/my-repo'
-      })
-      .addRepo([{
-        name: 'thompson/my-repo-2'
-      },{
-        name: 'thompson/my-repo-3'
-      }])
-      //then listen for webhook callbacks
-      .then(
+    thompson.listen()
 
-        thompson.listen()
-
-        .then(function(){
-          console.log('watching repos for ' + options.events.join(',') + ' event(s) on url ' + options.url);
-        })
-        .catch(function(e){
-          console.log('FAILURE LISTENING:::', e);
-        })
-      ).catch(function(e){
-       console.log('FAILURE LISTENING:::', e);
-      });
+    .then(function(){
+      util.log.success('watching ' + repo + ' for ' + events.join(',') + ' event(s) on url ' + url);
+    })
+    .catch(function(e){
+      util.log.error('FAILURE LISTENING TO REPO:::' + repo);
+    })
+  ).catch(function(e){
+    util.log.error('FAILURE LISTENING TO REPO:::' + repo);
+  });
 ```
 
 ## License
