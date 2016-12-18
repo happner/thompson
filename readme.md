@@ -35,8 +35,14 @@ var options = {
 var thompson = new Thompson(options);
 
   thompson.on('webhook-event', function (message) {
-
     console.log('have message yay!');
+    //message in format:
+    {
+        event:"[push/pull_request]",
+        repoName:"[name of repo, sans owner]",
+        branch: "master??",
+        detail:"[cpush detail]"
+      };
   });
 
   thompson
