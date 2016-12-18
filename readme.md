@@ -28,31 +28,44 @@ var options = {
   "url": "[external url you want webhooks to attach to]",
   "token": "[token]",
   "secret": "[secret to ensure you dont get anyone else pushing spurious events]",
-  "host": "0.0.0.0"
+  "host": "0.0.0.0",
+  "events": ["push","pull"]
 }
 
 var thompson = new Thompson(options);
 
     thompson.on('webhook-event', function(message){
+
+      //event message is in the following format:
+      // {}
+
       console.log('have event back:::', message);
-      done();
     });
 
-    thompson
+     thompson
       //add one
       .addRepo({
-        name:'happner/thompson'
+        name: 'thompson/my-repo'
       })
-      //add many
-      .then(thompson.addRepo([{
-          name:'herge/haddock'
-        },{
-          name:'herge/tintin'
-        }])
-      )
+      .addRepo([{
+        name: 'thompson/my-repo-2'
+      },{
+        name: 'thompson/my-repo-3'
+      }])
       //then listen for webhook callbacks
-      .then(thompson.listen())
-      .catch(done);
+      .then(
+
+        thompson.listen()
+
+        .then(function(){
+          console.log('watching repos for ' + options.events.join(',') + ' event(s) on url ' + options.url);
+        })
+        .catch(function(e){
+          console.log('FAILURE LISTENING:::', e);
+        })
+      ).catch(function(e){
+       console.log('FAILURE LISTENING:::', e);
+      });
 ```
 
 ## License

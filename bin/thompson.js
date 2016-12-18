@@ -1,6 +1,5 @@
 var commander = require('commander')
   , chalk = require('chalk')
-
 ;
 
 commander
@@ -50,16 +49,25 @@ commander
   });
 
   thompson
-    .addRepo({
-      name: repo
-    })
-    .then(thompson.listen())
+  //add one
+  .addRepo({
+    name: repo
+  })
+  //then listen for webhook callbacks
+  .then(
+
+    thompson.listen()
+
     .then(function(){
-      console.log('WATCHING:::' + repo + ' for ' + events.join(',') + 'event(s) on url ' + url);
+      console.log('watching' + repo + ' for ' + events.join(',') + ' event(s) on url ' + url);
     })
     .catch(function(e){
       console.log('FAILURE LISTENING TO REPO:::' + repo);
-    });
+    })
+  ).catch(function(e){
+    console.log('FAILURE LISTENING TO REPO:::' + repo);
+  });
+
 
 
 

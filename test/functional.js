@@ -70,6 +70,8 @@ describe('unit tests', function () {
       listener.listen(function(message){
         console.log('received github event:::', message);
         done();
+      }, function(e){
+        if (e) return done(e);
       });
 
       listener.test();
@@ -110,6 +112,4 @@ describe('unit tests', function () {
       .then(thompson.test())
       .catch(done);
   });
-
-
 });
