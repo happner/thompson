@@ -20,6 +20,8 @@ $ npm install thompson --save
 
 ## Usage
 
+###programmatic:
+
 ```javascript
 
 var Thompson = require('thompson');
@@ -66,6 +68,21 @@ var thompson = new Thompson(options);
   ).catch(function(e){
     util.log.error('FAILURE LISTENING TO REPO:::' + repo);
   });
+```
+
+###CLI:
+*the CLI is just for testing purposes, as we cannot attach events to actual external scripts yet, just prints out incoming events related to webhooks thompson has created*
+###Global:
+```bash
+> npm install thompson -g
+> thompson  -r [repo owner]/[repo name] -t [github api token] -s [github webhooks secret] -u [url, not https yet] -e [events comma separated, ie:push,pull_request]
+```
+
+###Local:
+```bash
+> git clone https://github.com/happner/thompson.git
+> cd thompson
+> nodejs bin/thompson -r [repo owner]/[repo name] -t [github api token] -s [github webhooks secret] -u [url, not https yet] -e [events comma separated, ie:push,pull_request]
 ```
 
 ## License
