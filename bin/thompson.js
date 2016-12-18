@@ -56,7 +56,8 @@ commander
   thompson
   //add one
   .addRepo({
-    name: repo
+    name: repo,
+    events:events
   })
   //then listen for webhook callbacks
   .then(
