@@ -72,31 +72,22 @@ Thompson.prototype.listen = function(){
 
   return new Promise(function(resolve, reject){
 
-    var doListen = function(){
-
       if (!_this.__webhook.repos || _this.__webhook.repos.length == 0) return reject(new Error('no repos configured'));
 
-      return _this.__listener.listen(_this.__onWebHookEvent.bind(_this), function(e){
+      else {
 
-        if (e) return reject(e);
+        _this.__webhook.ensureRepos(function(e){
 
-        console.log('resolving',resolve.toString());
-        resolve();
-      });
-    };
+          if (e) return reject(e);
 
-    if (_this.__options.repos && _this.__options.repos.length > 0)
+          return _this.__listener.listen(_this.__onWebHookEvent.bind(_this), function(e){
 
-      return async.eachSeries(_this.__options.repos, function(repo, repoCB){
+            if (e) return reject(e);
 
-      }, function(e){
-
-        if (e) return reject(e);
-
-        doListen();
-      });
-
-    doListen();
+            resolve();
+          });
+        })
+      }
   });
 };
 

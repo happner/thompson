@@ -1,6 +1,9 @@
 var commander = require('commander')
-  , chalk = require('chalk')
+  , Util = require('../lib/util')
+  ;
 ;
+
+var util = new Util();
 
 commander
 
@@ -18,7 +21,6 @@ commander
 
   .parse(process.argv);
 
-
   var repo = commander.option('r').repo;
 
   var token = commander.option('t').token;
@@ -29,9 +31,7 @@ commander
 
   var events = ['push'];
 
-  if (commander.option('e').events){
-    events = commander.option('e').events.split(',');
-  }
+  if (commander.option('e').events) events = commander.option('e').events.split(',');
 
   var Thompson = require('../index');
 
@@ -44,8 +44,11 @@ commander
   var thompson = new Thompson(options);
 
   thompson.on('webhook-event', function (message) {
-    console.log('have event back:::', message);
-    done();
+
+    util.log.success('have event back:::', {
+      message:message,
+      args:arguments
+    });
   });
 
   thompson
@@ -59,13 +62,13 @@ commander
     thompson.listen()
 
     .then(function(){
-      console.log('watching' + repo + ' for ' + events.join(',') + ' event(s) on url ' + url);
+      util.log.success('watching ' + repo + ' for ' + events.join(',') + ' event(s) on url ' + url);
     })
     .catch(function(e){
-      console.log('FAILURE LISTENING TO REPO:::' + repo);
+      util.log.error('FAILURE LISTENING TO REPO:::' + repo);
     })
   ).catch(function(e){
-    console.log('FAILURE LISTENING TO REPO:::' + repo);
+    util.log.error('FAILURE LISTENING TO REPO:::' + repo);
   });
 
 
