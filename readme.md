@@ -13,8 +13,8 @@
 Thompson sets up [github webhooks](https://developer.github.com/webhooks/) and listens for events on the webhooks, all he needs is a [github token](https://github.com/settings/tokens/new), an external address which he listens on, and a list of repos to attach his cane to.
 
 Special thanks to:
-[pksunkara](https://github.com/pksunkara/octonode)
-[nlf](https://github.com/nlf/node-github-hook)
+ - [pksunkara](https://github.com/pksunkara/octonode)
+ - [nlf](https://github.com/nlf/node-github-hook)
 
 ## Installation
 
