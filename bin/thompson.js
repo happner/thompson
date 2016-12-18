@@ -45,6 +45,8 @@ commander
 
   thompson.on('webhook-event', function (message) {
 
+    console.log('EVENT ARGS:::', arguments);
+
     util.log.success('have event back:::', {
       message:message,
       args:arguments
