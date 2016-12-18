@@ -40,7 +40,7 @@ var thompson = new Thompson(options);
     {
         event:"[push/pull_request]",
         name:"[name of repo, sans owner]",
-        owner:"{owner detail}",
+        owner:"{owner name}",
         branch: "master??",
         detail:"[cpush detail]"
       };

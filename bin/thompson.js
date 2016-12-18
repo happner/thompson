@@ -45,12 +45,11 @@ commander
 
   thompson.on('webhook-event', function (message) {
 
-    console.log('EVENT ARGS:::', message);
-
-    util.log.success('have event back:::', {
-      message:message,
-      args:arguments
-    });
+    util.log.success('have event back:::');
+    util.log.success('repo:::' + message.name);
+    util.log.success('owner:::' + message.owner);
+    util.log.success('event:::' + message.event);
+    util.log.success('branch:::' + message.branch);
   });
 
   thompson
