@@ -71,7 +71,7 @@ var thompson = new Thompson(options);
 ```
 
 ###CLI:
-*the CLI is just for testing purposes, as we cannot attach events to actual external scripts yet, just prints out incoming events related to webhooks thompson has created*
+*just for testing purposes ATM, as we cannot attach events to actual external scripts yet, just prints out incoming events related to webhooks thompson has created*
 ###Global:
 ```bash
 > npm install thompson -g
