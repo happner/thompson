@@ -1,6 +1,6 @@
 {
   "name": "thompson",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "description": "hookup to git, add some listeners, get notified and act",
   "license": "MIT",
   "main": "index.js",
@@ -25,9 +25,6 @@
   "bin": {
     "thompson": "./bin/thompson.js"
   },
-  "files": [
-    "index.js"
-  ],
   "devDependencies": {
     "commander": "^2.9.0",
     "expect.js": "^0.3.1",
