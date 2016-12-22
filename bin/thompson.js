@@ -57,11 +57,10 @@ commander
   .addRepo({
     name: repo,
     events:events
-  })
-  //then listen for webhook callbacks
-  .then(
+  });
 
-    thompson.listen()
+  console.log('OK TIME TO LISTEN:::');
+  thompson.listen()
 
     .then(function(){
       util.log.success('watching ' + repo + ' for ' + events.join(',') + ' event(s) on url ' + url);
@@ -69,9 +68,9 @@ commander
     .catch(function(e){
       util.log.error('FAILURE LISTENING TO REPO:::' + repo);
     })
-  ).catch(function(e){
-    util.log.error('FAILURE LISTENING TO REPO:::' + repo);
-  });
+
+
+
 
 
 

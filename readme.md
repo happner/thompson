@@ -58,10 +58,23 @@ var thompson = new Thompson(options);
     name: repo,
     events:['push']
   })
-  //then listen for webhook callbacks
-  .then(
 
-    thompson.listen()
+  thompson
+  //and/or many
+  .addRepo([
+    {
+      name: repo,
+      events:['push']
+    },{
+      name: repo,
+      events:['push']
+    }
+  ])
+
+   //then listen for webhook callbacks
+
+
+   thompson.listen()
 
     .then(function(){
       util.log.success('watching ' + repo + ' for ' + events.join(',') + ' event(s) on url ' + url);
@@ -69,9 +82,7 @@ var thompson = new Thompson(options);
     .catch(function(e){
       util.log.error('FAILURE LISTENING TO REPO:::' + repo);
     })
-  ).catch(function(e){
-    util.log.error('FAILURE LISTENING TO REPO:::' + repo);
-  });
+
 ```
 
 ###CLI:

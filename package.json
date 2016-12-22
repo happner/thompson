@@ -1,6 +1,6 @@
 {
   "name": "thompson",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "hookup to git, add some listeners, get notified and act",
   "license": "MIT",
   "main": "index.js",

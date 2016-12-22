@@ -43,15 +43,7 @@ function Thompson(options){
 Thompson.prototype.addRepo = function(repo){
 
   var _this = this;
-
-  return new Promise(function(resolve, reject){
-
-    _this.__webhook.addRepo(repo, function(e){
-
-      if (e) return reject(e);
-      resolve(_this);
-    });
-  });
+  _this.__webhook.addRepo(repo);
 };
 
 Thompson.prototype.on = function(event, handler){
