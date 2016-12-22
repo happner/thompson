@@ -52,6 +52,8 @@ var thompson = new Thompson(options);
       };
   });
 
+//addRepo is synchronous, we just pushing them to the collection
+
   thompson
   //add one
   .addRepo({
@@ -71,8 +73,7 @@ var thompson = new Thompson(options);
     }
   ])
 
-   //then listen for webhook callbacks
-
+   //then listen for webhook callbacks, this call will create webhooks if the dont already exist, and receive a test message if they are being newly created
 
    thompson.listen()
 
