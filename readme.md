@@ -40,28 +40,29 @@ var options = {
 
 var thompson = new Thompson(options);
 
-  thompson.on('webhook-event', function (message) {
-    console.log('have message yay!');
+//first attach to the webhook event, this is when we receive an event from github
+thompson.on('webhook-event', function (message) {
+  console.log('have message yay!');
     //message in format:
-    {
-        event:"[push/pull_request]",
-        name:"[name of repo, sans owner]",
-        owner:"{owner name}",
-        branch: "master??",
-        detail:"[cpush detail]"
-      };
-  });
+  message_format = {
+    event:message.event,//"[push/pull_request]"
+    name:message.name,//"[name of repo, sans owner]"
+    owner:message.owner,//"{owner name}"
+    branch:message.branch,// "master! ..master!"
+    detail:message.detail//"[push message raw]"
+  };
+});
 
-//addRepo is synchronous, we just pushing them to the collection
+//add some repos you want to watch, addRepo is synchronous, we just pushing them to the collection:
 
-  thompson
+thompson
   //add one
   .addRepo({
     name: repo,
     events:['push']
   })
 
-  thompson
+thompson
   //and/or many
   .addRepo([
     {
@@ -73,16 +74,15 @@ var thompson = new Thompson(options);
     }
   ])
 
-   //then listen for webhook callbacks, this call will create webhooks if the dont already exist, and receive a test message if they are being newly created
+//then listen for webhook callbacks, this call will create webhooks if the dont already exist, and receive a test message if they are being newly created
+thompson.listen()
 
-   thompson.listen()
-
-    .then(function(){
-      util.log.success('watching ' + repo + ' for ' + events.join(',') + ' event(s) on url ' + url);
-    })
-    .catch(function(e){
-      util.log.error('FAILURE LISTENING TO REPO:::' + repo);
-    })
+.then(function(){
+  console.log('voila!!');
+})
+.catch(function(e){
+   console.log('oh dear, not spiffing at all...');
+})
 
 ```
 

@@ -78,7 +78,7 @@ describe('unit tests', function () {
     });
   });
 
-  it('thompson functional', function (done) {
+  xit('thompson functional', function (done) {
 
     var Thompson = require('../index');
 
@@ -90,6 +90,8 @@ describe('unit tests', function () {
 
     var thompson = new Thompson(options);
 
+    thompson.listen
+
     thompson.on('webhook-event', function(message){
       console.log('have event back:::', message);
       done();
@@ -99,16 +101,19 @@ describe('unit tests', function () {
       //add one
       .addRepo({
         name:'happner/thompson'
-      })
+      });
+
+
+    thompson
       //add many
-      .then(thompson.addRepo([{
-          name:'herge/haddock'
-        },{
-          name:'herge/tintin'
-        }])
-      )
+      .addRepo([{
+        name:'herge/haddock'
+      },{
+        name:'herge/tintin'
+      }]);
+
       //then listen for webhook callbacks
-      .then(thompson.listen())
+      thompson.listen()
       .then(thompson.test())
       .catch(done);
   });
