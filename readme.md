@@ -78,7 +78,7 @@ thompson
 thompson.listen()
 
 .then(function(){
-  console.log('voila!!');
+  console.log('thompson is listeneing now and will emit "webhook-event" events after matching github activity');
 })
 .catch(function(e){
    console.log('oh dear, not spiffing at all...');
