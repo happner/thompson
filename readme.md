@@ -23,7 +23,7 @@ $ npm install thompson --save
 ```
 
 ## Usage
-
+*thompson is meant to be used as amodule in systems that depend on github events, the cli is just for testing purposes*
 ###programmatic:
 
 ```javascript
